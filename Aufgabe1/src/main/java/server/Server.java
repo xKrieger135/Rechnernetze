@@ -10,12 +10,16 @@ import java.net.Socket;
 public class Server {
 
     private ServerSocket serverSocket;
-    private final int serverPort = 30000;
+    private final int serverPort = 1337;
     private final int maxClientConnections = 3;
     private int currentClientConnections = 0;
 
     public Server() {
-        initializeServer();
+        try {
+            this.serverSocket = new ServerSocket(serverPort);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void startServer() {

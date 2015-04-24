@@ -20,7 +20,7 @@ public class Client implements Runnable{
 
     private void initializeClient() {
         try {
-            this.socket = new Socket("localhost", 30000);
+            this.socket = new Socket("localhost", 1337);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -40,7 +40,8 @@ public class Client implements Runnable{
 
     public void writeToServer() {
         try {
-            writer.write(StringUtils.encode("REVERSE hallo"));
+            writer.write(StringUtils.encode("REVERSE hallo") + "\n");
+            System.out.println("Write to Server -> REVERSE hallo");
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,8 +52,7 @@ public class Client implements Runnable{
     public void run() {
         while(true) {
             try {
-                Thread.sleep(10000);
-                System.out.println("Write Hello to Server");
+                Thread.sleep(3000);
                 writeToServer();
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block

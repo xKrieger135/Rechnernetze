@@ -26,8 +26,10 @@ public class RequestHandler implements Runnable {
     public void run() {
         System.out.println("Thread starts");
         while(!Thread.currentThread().isInterrupted()) {
-            String clientRequest = StringUtils.decode(acceptRequestFromClient());
+            String clientRequest = StringUtils.decode(getRequestFromClient());
+            System.out.println("clientrequest = " + clientRequest);
             String parsedRequest = parseString(clientRequest);
+            System.out.println("Answer for Client : " +  parsedRequest);
             sendAnswerToClient(StringUtils.encode(parsedRequest));
         }
     }
@@ -48,10 +50,10 @@ public class RequestHandler implements Runnable {
     }
 
     // Bekommt eine Anfrage vom Client
-    public String acceptRequestFromClient() {
+    public String getRequestFromClient() {
         String clientMessage = null;
         try {
-            clientMessage = reader.readLine();
+            clientMessage = reader.readLine() + "\n";
             System.out.println("Message from Client is: " + clientMessage);
         } catch (IOException e) {
             e.printStackTrace();
@@ -62,7 +64,7 @@ public class RequestHandler implements Runnable {
     // Sendet eine Antwort zum Client zurueck
     public void sendAnswerToClient(String answer) {
         try {
-            writer.write(answer);
+            writer.write(answer + "\n");
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
